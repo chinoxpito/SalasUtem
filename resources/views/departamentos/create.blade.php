@@ -30,6 +30,6 @@
       </p>
      <table>
 		<td><a href="/departamentos" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/departamentos/create" class="btn btn-warning btn-sm">Agregar Departamento</a></td>
+		
 	</table>
 @stop

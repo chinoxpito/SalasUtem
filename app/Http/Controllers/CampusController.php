@@ -1,9 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Campus;
+use App\Http\Requests\StoreCampusRequest;
+use App\Http\Requests\UpdateCampusRequest;
 use Illuminate\Http\Request;
+use Auth;
 
 class CampusController extends Controller {
 
@@ -15,7 +16,12 @@ class CampusController extends Controller {
 	public function index()
 	{
 		//$campus = Campus::all(); // Cambiar esto, si la db es muy grande queda la escoba
-		return view('campus.index')->with('campus', \App\Campus::paginate(5)->setPath('campu'));
+		
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$campus = \App\Campus::paginate(5);
+		
+		return view('campus.index', compact('campus'))->with('nombre',$nombre);
 	}
 
 	/**
@@ -25,7 +31,11 @@ class CampusController extends Controller {
 	 */
 	public function create()
 	{
-		return view('campus.create');
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		
+
+		return view('campus.create')->with('nombre',$nombre);
 	}
 
 	/**
@@ -33,21 +43,25 @@ class CampusController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(StoreCampusRequest $request)
 	{
+		$usuario = Auth::user();
 		$campus = new \App\Campus;
 
-		$campus->nombre = \Request::input('nombre');
-		$campus->direccion = \Request::input('direccion');
-		$campus->latitud = \Request::input('latitud');
-		$campus->longitud = \Request::input('longitud');
-		$campus->descripcion = \Request::input('descripcion');
-		$campus->rut_encargado = \Request::input('rut');
+		$campus->nombre = ucwords($request->input('nombre'));
+		$campus->direccion = ucwords($request->input('direccion'));
+		$campus->latitud = $request->input('latitud');
+		$campus->longitud = $request->input('longitud');
+		$campus->descripcion = ucfirst($request->input('descripcion'));
+		$campus->rut_encargado = $request->input('rut_encargado');
 
 		$campus->save();
 
-		return redirect()->route('campus.index')->with('message', 'Campus Agregado');
+		return redirect()->route('campus.index')->with('message', 'Campus Agregado')->with('usuario',$usuario);
 		
+
+
+
 	}
 
 	/**
@@ -58,9 +72,13 @@ class CampusController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		
+
 		$campus = \App\Campus::find($id);
 		if($campus)
-			return view('campus.show')->with('campu', $campus);
+			return view('campus.show')->with('campu', $campus)->with('nombre', $nombre);
 		else
 			abort(404);
 	}
@@ -73,7 +91,9 @@ class CampusController extends Controller {
 	 */
 	public function edit($id)
 	{
-		return view('campus.edit')->with('campu', \App\Campus::find($id));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view('campus.edit')->with('campu', \App\Campus::find($id))->with('nombre', $nombre);
 	}
 
 	/**
@@ -82,19 +102,18 @@ class CampusController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(UpdateCampusRequest $request, $id)
 	{
+		$usuario = Auth::user();
 		$campus = \App\Campus::find($id);
-
-		$campus->nombre = \Request::input('nombre');
-		$campus->direccion = \Request::input('direccion');
-		$campus->latitud = \Request::input('latitud');
-		$campus->longitud = \Request::input('longitud');
-		$campus->descripcion = \Request::input('descripcion');
-		$campus->rut_encargado = \Request::input('rut_encargado');
-
+		$campus->nombre = ucwords($request->input('nombre'));
+		$campus->direccion = ucwords($request->input('direccion'));
+		$campus->latitud = $request->input('latitud');
+		$campus->longitud = $request->input('longitud');
+		$campus->descripcion = ucfirst($request->input('descripcion'));
+		$campus->rut_encargado = $request->input('rut_encargado');
 		$campus->save();
-		return redirect()->route('campus.index', ['campu' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('campus.index', ['campu' => $id])->with('message', 'Cambios guardados')->with('usuario',$usuario);
 	}
 
 	/**

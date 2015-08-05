@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use App\Http\Requests\StoreRolesUsuariosRequest;
+use App\Http\Requests\UpdateRolesUsuariosRequest;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
+use App\Role;
+use Auth;
 
 class RolesusuariosController extends Controller {
 
@@ -14,7 +16,11 @@ class RolesusuariosController extends Controller {
 	 */
 	public function index()
 	{
-		return view("rolesusuarios.index")->with('rolesusuarios', \App\Rolusuario::paginate(5)->setPath('rolusuario'));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$rolesusuarios = \App\Rolusuario::paginate(5);
+		
+		return view("rolesusuarios.index", compact('rolesusuarios'))->with('nombre',$nombre);
 	}
 
 	/**
@@ -24,8 +30,10 @@ class RolesusuariosController extends Controller {
 	 */
 	public function create()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$rol= \App\Rol::lists('nombre','id');
-		return view('rolesusuarios.create')->with('rol',$rol);
+		return view('rolesusuarios.create')->with('rol',$rol)->with('nombre',$nombre);
 	}
 
 	/**
@@ -33,16 +41,18 @@ class RolesusuariosController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(	)
+	public function store(StoreRolesUsuariosRequest $request)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$rolesusuarios = new \App\Rolusuario;
 
-		$rolesusuarios->rut = \Request::input('rut');
-		$rolesusuarios->rol_id = \Request::input('rol_id');
+		$rolesusuarios->rut = $request->input('rut');
+		$rolesusuarios->rol_id = $request->input('rol_id');
 
 		$rolesusuarios->save();
 	
-	return redirect()->route('rolesusuarios.index')->with('message', 'Rol Agregado');
+	return redirect()->route('rolesusuarios.index')->with('message', 'Rol Agregado')->with('nombre',$nombre);
 	}
 
 	/**
@@ -53,10 +63,12 @@ class RolesusuariosController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$rolesusuarios = \App\Rolusuario::find($id);
 		$rol = \App\Rol::find($rolesusuarios->rol_id);
 		
-		return view('rolesusuarios.show')->with('rolusuario',$rolesusuarios)->with('rol',$rol);
+		return view('rolesusuarios.show')->with('rolusuario',$rolesusuarios)->with('rol',$rol)->with('nombre',$nombre);
 	}
 
 	/**
@@ -67,8 +79,10 @@ class RolesusuariosController extends Controller {
 	 */
 	public function edit($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$rol= \App\Rol::lists('nombre','id');
-		return view('rolesusuarios.edit')->with('rolusuario', \App\Rolusuario::find($id))->with('rol',$rol);
+		return view('rolesusuarios.edit')->with('rolusuario', \App\Rolusuario::find($id))->with('rol',$rol)->with('nombre',$nombre);
 	}
 
 	/**
@@ -79,13 +93,15 @@ class RolesusuariosController extends Controller {
 	 */
 	public function update($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$rolesusuarios = \App\Rolusuario::find($id);
 
 		$rolesusuarios->rut = \Request::input('rut');
 		$rolesusuarios->rol_id = \Request::input('rol_id');
 
 		$rolesusuarios->save();
-		return redirect()->route('rolesusuarios.index', ['rolusuario' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('rolesusuarios.index', ['rolusuario' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

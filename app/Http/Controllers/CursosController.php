@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use App\Http\Requests\StoreCursoRequest;
+use App\Http\Requests\UpdateCursosRequest;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
+use Docente;
+use Auth;
 
 class CursosController extends Controller {
 
@@ -14,7 +16,11 @@ class CursosController extends Controller {
 	 */
 	public function index()
 	{
-		return view("cursos.index")->with('cursos', \App\Curso::paginate(5)->setPath('curso'));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$cursos = \App\Curso::paginate(5);
+		
+		return view("cursos.index", compact('cursos'))->with('nombre',$nombre);
 	}
 
 	/**
@@ -24,9 +30,11 @@ class CursosController extends Controller {
 	 */
 	public function create()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$asignatura = \App\Asignatura::lists('nombre','id');
 		$docente = \App\Docente::lists('nombres','id');
-		return view('cursos.create')->with('docente',$docente)->with('asignatura',$asignatura);
+		return view('cursos.create')->with('docente',$docente)->with('asignatura',$asignatura)->with('nombre',$nombre);
 	}
 
 	/**
@@ -34,21 +42,21 @@ class CursosController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(storeCursoRequest $request)
 	{
-				
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;		
 		
-		$cursos = new \App\Curso;
+		$curso = new \App\Curso;
 
-		$cursos->semestre = \Request::input('semestre');
-		$cursos->seccion = \Request::input('seccion');
-		$cursos->anio = \Request::input('anio');
-		$cursos->asignatura_id = \Request::input('asignatura_id');
-		$cursos->docente_id = \Request::input('docente_id');
-
-		$cursos->save();
+		$curso->semestre = $request->input('semestre');
+			$curso->seccion = $request->input('seccion');
+			$curso->anio = $request->input('anio');
+			$curso->asignatura_id = $request->input('asignatura_id');
+			$curso->docente_id = $request->input('docente_id');
+		$curso->save();
 		
-		return redirect()->route('cursos.index')->with('message', 'curso agregado');
+		return redirect()->route('cursos.index')->with('message', 'curso agregado')->with('nombre',$nombre);
 	}
 
 	/**
@@ -59,11 +67,12 @@ class CursosController extends Controller {
 	 */
 	public function show($id)
 	{
-		
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$cursos = \App\Curso::find($id);
 		$docente= \App\Docente::find($cursos->docente_id);
 		$asignatura= \App\Asignatura::find($cursos->asignatura_id);
-		return view('cursos.show')->with('curso',$cursos)->with('docente',$docente)->with('asignatura',$asignatura);
+		return view('cursos.show')->with('curso',$cursos)->with('docente',$docente)->with('asignatura',$asignatura)->with('nombre',$nombre);
 	}
 
 	/**
@@ -74,10 +83,11 @@ class CursosController extends Controller {
 	 */
 	public function edit($id)
 	{
-		
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$docente = \App\Docente::lists('nombres','id');
 		$asignatura = \App\Asignatura::lists('nombre','id');
-		return view('cursos.edit')->with('curso', \App\Curso::find($id))->with('docente',$docente)->with('asignatura',$asignatura);
+		return view('cursos.edit')->with('curso', \App\Curso::find($id))->with('docente',$docente)->with('asignatura',$asignatura)->with('nombre',$nombre);
 	}
 
 	/**
@@ -88,7 +98,8 @@ class CursosController extends Controller {
 	 */
 	public function update($id)
 	{
-		
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$cursos = \App\Curso::find($id);
 
 		$cursos->semestre = \Request::input('semestre');
@@ -98,7 +109,7 @@ class CursosController extends Controller {
 		$cursos->docente_id = \Request::input('docente_id');
 
 		$cursos->save();
-		return redirect()->route('cursos.index', ['curso' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('cursos.index', ['curso' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

@@ -1,19 +1,8 @@
 @extends('alumno.plantilla')
 @section('contenido')
-
       <section id="main-content">
         <section class="wrapper">
-                        <div class="row mtbox">
-                        <!--  @if ( !Auth::guest() )
-                        <center><h1>Bienvenido {{Auth::user("")->nombres}}</h1></center>
-                        @endif-->
-                        <center><h1>Bienvenido {{$nombreCompleto}}</h1></center>
-
-                        <center><h3>Tus clases para esta semana son las siguientes.</h3></center>
-
-                        </div>
-
-                        <div class="row">
+                      <div class="row">
                       <div class="col-md-12">
                           <div class="content-panel">
                           <table class="table table-striped table-advance table-hover">
@@ -25,7 +14,6 @@
                                   <th> Periodo</th>
                                   <th> Hora Inicio</th>
                                   <th> Curso</th>
-                                  <th> Profesor</th>
                                   <th> Sala</th>
                               </tr>
                               </thead>
@@ -62,7 +50,7 @@
                                   <th> Periodo</th>
                                   <th> Hora Inicio</th>
                                   <th> Curso</th>
-                                  <th> Profesor</th>
+                                  
                                   <th> Sala</th>
                               </tr>
                               </thead>
@@ -99,7 +87,7 @@
                                   <th> Periodo</th>
                                   <th> Hora Inicio</th>
                                   <th> Curso</th>
-                                  <th> Profesor</th>
+                                  
                                   <th> Sala</th>
                               </tr>
                               </thead>
@@ -136,7 +124,7 @@
                                   <th> Periodo</th>
                                   <th> Hora Inicio</th>
                                   <th> Curso</th>
-                                  <th> Profesor</th>
+                                  
                                   <th> Sala</th>
                               </tr>
                               </thead>
@@ -173,7 +161,7 @@
                                   <th> Periodo</th>
                                   <th> Hora Inicio</th>
                                   <th> Curso</th>
-                                  <th> Profesor</th>
+                                  
                                   <th> Sala</th>
                               </tr>
                               </thead>

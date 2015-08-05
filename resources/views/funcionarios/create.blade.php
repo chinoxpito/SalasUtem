@@ -1,6 +1,15 @@
 @extends('funcionarios.plantilla')
 @section('contenido')
-<p>
+ @if (count($errors) > 0)
+	                    <div class="alert alert-danger">
+	                      <ul>
+	                        @foreach ($errors->all() as $error)
+	                           <li>{{ $error }}</li>
+                          @endforeach
+	                      </ul>
+                      </div>
+                    @endif
+         <p>
 	
 	<table>
 		<td width=505><h2>Registro de Funcionarios</h2></td>
@@ -35,6 +44,6 @@
       <table>
 		
 		<td><a href="/funcionarios" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/funcionarios/create" class="btn btn-warning btn-sm">Agregar Funcionario</a></td>
+		
 	</table>
 @stop

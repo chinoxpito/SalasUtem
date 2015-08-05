@@ -1,5 +1,14 @@
 @extends('facultades.plantilla')
 @section('contenido')
+@if (count($errors) > 0)
+	                    <div class="alert alert-danger">
+	                      <ul>
+	                        @foreach ($errors->all() as $error)
+	                           <li>{{ $error }}</li>
+                          @endforeach
+	                      </ul>
+                      </div>
+                    @endif
 <p>
 	
 	<table>
@@ -14,11 +23,7 @@
 				<div class="form-group">
 					{!! Form::text('nombre', null, ['class' => 'form-control', 'placeholder'=>'Nombre de la facultad']) !!}
 				</div>
-				<!--<div class="form-group">
-					{!! Form::text('campus_id', null,['class'=>'form-control', 'placeholder'=>'campus'])!!}
-				</div>-->
 				
-
 				<div class="form-group">
 					{!! Form::text('descripcion', null,['class'=>'form-control', 'placeholder'=>'Descripcion'])!!}
 				</div>
@@ -37,6 +42,6 @@
       <table>
 		
 		<td><a href="/facultades" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/facultades/create" class="btn btn-warning btn-sm">Agregar Campus</a></td>
+		
 	</table>
 @stop

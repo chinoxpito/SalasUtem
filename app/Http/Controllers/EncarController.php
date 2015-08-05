@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class EncarController extends Controller {
 
@@ -14,7 +15,9 @@ class EncarController extends Controller {
 	 */
 	public function index()
 	{
-		return view("encar.index");
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view("encar.index")->with('nombre',$nombre);
 	}
 
 	/**

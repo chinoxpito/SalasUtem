@@ -1,14 +1,7 @@
 @extends('horarios.plantilla')
 @section('contenido')
 <p>
-  <ul class="nav nav-tabs">
-    <li class=""><a aria-expanded="true" href="/admin/menu" data-toggle="tab">Principal</a></li>
-    <li class="active"><a aria-expanded="false" href="/asignaturas" data-toggle="tab">Asignaturas</a></li>
-    <li class=""><a aria-expanded="false" href="/cursos" data-toggle="tab">Cursos</a></li>
-    <li class=""><a aria-expanded="false" href="/horarios" data-toggle="tab">Horarios</a></li>
-    <li class=""><a aria-expanded="false" href="/periodos" data-toggle="tab">Periodos</a></li>
-    <li class=""><a aria-expanded="false" href="/asignaturascursadas" data-toggle="tab">Asignaturas Cursadas</a></li>
-    </ul>
+  
 	<table>
 	   <td width=505><h2>HORARIO</h2></td>
   </table>

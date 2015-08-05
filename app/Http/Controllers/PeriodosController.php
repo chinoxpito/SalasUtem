@@ -1,9 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use App\Http\Requests\StorePeriodoRequest;
+use App\Http\Requests\UpdatePeriodoRequest;
 use App\Http\Controllers\Controller;
-
-use Request;
+use Illuminate\Http\Request;
+use Auth;
 
 class PeriodosController extends Controller {
 
@@ -14,10 +15,12 @@ class PeriodosController extends Controller {
 	 */
 	public function index()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$periodos = \App\Periodo::paginate(5);
-		return view("periodos.index", compact('periodos'));
-		//return view("periodos.index", compact('periodos'))->with('periodos', \App\Periodo::paginate(5)->setPath('periodo'));
-		dd($periodos);
+		
+		return view("periodos.index", compact('periodos'))->with('nombre',$nombre);
+		
 	}
 
 	/**
@@ -27,7 +30,9 @@ class PeriodosController extends Controller {
 	 */
 	public function create()
 	{
-		return view('periodos.create');
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view('periodos.create')->with('nombre',$nombre);
 	}
 
 	/**
@@ -35,17 +40,19 @@ class PeriodosController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(StorePeriodoRequest $request)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$periodo = new \App\Periodo;
 
-		$periodo->bloque = \Request::input('bloque');
-		$periodo->inicio = \Request::input('inicio');
-		$periodo->fin = \Request::input('fin');
+		$periodo->bloque = ucwords($request->input('bloque'));
+		$periodo->inicio = $request->input('inicio');
+		$periodo->fin = $request->input('fin');
 		
 		$periodo->save();
 
-		return redirect()->route('periodos.index')->with('message', 'Periodo agregado');
+		return redirect()->route('periodos.index')->with('message', 'Periodo agregado')->with('nombre',$nombre);
 	}
 
 	/**
@@ -56,9 +63,11 @@ class PeriodosController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$periodo = \App\Periodo::find($id);
 
-		return view('periodos.show')->with('periodo',$periodo);
+		return view('periodos.show')->with('periodo',$periodo)->with('nombre',$nombre);
 	}
 
 	/**
@@ -69,7 +78,9 @@ class PeriodosController extends Controller {
 	 */
 	public function edit($id)
 	{
-		return view('periodos.edit')->with('periodo', \App\Periodo::find($id));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view('periodos.edit')->with('periodo', \App\Periodo::find($id))->with('nombre',$nombre);
 	}
 
 	/**
@@ -80,6 +91,8 @@ class PeriodosController extends Controller {
 	 */
 	public function update($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$periodo = \App\Periodo::find($id);
 
 		$periodo->bloque = \Request::input('bloque');
@@ -87,7 +100,7 @@ class PeriodosController extends Controller {
 		$periodo->fin = \Request::input('fin');
 
 		$periodo->save();
-		return redirect()->route('periodos.index', ['periodo' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('periodos.index', ['periodo' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

@@ -21,6 +21,7 @@
   }
 </style>
 </head>
+<table align="right" ><td>Bienvenido/a {{$nombre}}.</td></table>
 <body>
   <h1>ADMINISTRADOR</h1>
   <ul class="nav nav-tabs">

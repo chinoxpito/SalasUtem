@@ -21,6 +21,7 @@
   }
 </style>
 </head>
+<table align="right" ><td>Bienvenido/a {{$nombre}}.</td></table>
 <body>
   <h1>ADMINISTRADOR</h1>
   <ul class="nav nav-tabs">
@@ -45,6 +46,15 @@
 
       <li class=""><a aria-expanded="false" href="{{ action('Auth\AuthController@getLogout')}}" >Cerrar</a></li>
   </ul>
+  @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                      <ul>
+                        @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                        @endforeach
+                      </ul>
+                      </div>
+                      @endif
   @yield('contenido')
 </body>
 </html>

@@ -1,14 +1,9 @@
 <?php namespace App\Http\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
-
 use Auth;
-
 class AdmiController extends Controller {
-
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -16,7 +11,9 @@ class AdmiController extends Controller {
 	 */
 	public function index()
 	{
-		return view("admi.index");
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view("admi.index")->with('nombre',$nombre);
 	}
 	
 	public function estudindex()
@@ -26,7 +23,6 @@ class AdmiController extends Controller {
 		
 		return view("alumno.index")->with('nombre',$nombre);
 	}
-
 	public function inicioAlumno()
   {
     date_default_timezone_set("America/Santiago" );
@@ -60,7 +56,6 @@ class AdmiController extends Controller {
                                ->with('usuario',$usuario)
                                ->with('periodos', \App\Periodo::paginate(10)->setPath('periodo'));
   }
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -70,7 +65,6 @@ class AdmiController extends Controller {
 	{
 		//
 	}
-
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -80,7 +74,6 @@ class AdmiController extends Controller {
 	{
 		//
 	}
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -91,7 +84,6 @@ class AdmiController extends Controller {
 	{
 		//
 	}
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -102,7 +94,6 @@ class AdmiController extends Controller {
 	{
 		//
 	}
-
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -113,7 +104,6 @@ class AdmiController extends Controller {
 	{
 		//
 	}
-
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -124,5 +114,4 @@ class AdmiController extends Controller {
 	{
 		//
 	}
-
 }

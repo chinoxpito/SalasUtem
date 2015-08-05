@@ -33,6 +33,6 @@
       <table>
 		
 		<td><a href="/facultades" class="btn btn-default btn-sm">Volver</a>
-		<a href="/facultades/create" class="btn btn-warning btn-sm">Agregar Facultad</a></td>
+		
 </table>
 @stop

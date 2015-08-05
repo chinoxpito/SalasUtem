@@ -28,6 +28,6 @@
   </table>
   <table>
      <td><a href="/roles" class="btn btn-default btn-sm">Volver</a>
-          {!! Html::link(route('roles.edit', $rol->id), 'Editar', array('class' => 'btn btn-warning btn-sm')) !!}</td>
+          
   </table>
 @stop

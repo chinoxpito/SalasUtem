@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class RolesController extends Controller {
 
@@ -14,7 +15,11 @@ class RolesController extends Controller {
 	 */
 	public function index()
 	{
-		return view("roles.index")->with('roles', \App\Rol::paginate(5)->setPath('rol'));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$roles = \App\Rol::paginate(5);
+		
+		return view("roles.index", compact('roles'))->with('nombre',$nombre);
 	}
 
 	/**
@@ -24,7 +29,9 @@ class RolesController extends Controller {
 	 */
 	public function create()
 	{
-		return view('roles.create');
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view('roles.create')->with('nombre',$nombre);
 	}
 
 	/**
@@ -34,6 +41,8 @@ class RolesController extends Controller {
 	 */
 	public function store(	)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$roles = new \App\Rol;
 
 		$roles->nombre = \Request::input('nombre');
@@ -41,7 +50,7 @@ class RolesController extends Controller {
 
 		$roles->save();
 
-		return redirect()->route('roles.index')->with('message', 'Rol Agregado');
+		return redirect()->route('roles.index')->with('message', 'Rol Agregado')->with('nombre',$nombre);
 	}
 
 	/**
@@ -52,9 +61,11 @@ class RolesController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$roles = \App\Rol::find($id);
 
-		return view('roles.show')->with('rol',$roles);
+		return view('roles.show')->with('rol',$roles)->with('nombre',$nombre);
 	}
 
 	/**
@@ -65,7 +76,9 @@ class RolesController extends Controller {
 	 */
 	public function edit($id)
 	{
-		return view('roles.edit')->with('rol', \App\Rol::find($id));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view('roles.edit')->with('rol', \App\Rol::find($id))->with('nombre',$nombre);
 	}
 
 	/**
@@ -76,13 +89,15 @@ class RolesController extends Controller {
 	 */
 	public function update($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$roles = \App\Rol::find($id);
 
 		$roles->nombre = \Request::input('nombre');
 		$roles->descripcion = \Request::input('descripcion');
 
 		$roles->save();
-		return redirect()->route('roles.index', ['rol' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('roles.index', ['rol' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

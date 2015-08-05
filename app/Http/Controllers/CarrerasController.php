@@ -1,9 +1,12 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
+use App\Http\Requests\StoreCarreraRequest;
+use App\Http\Requests\UpdateCarreraRequest;
+use App\Http\Controllers\Controller;
+use App\Escuela;
 use Illuminate\Http\Request;
+use Auth;
 
 class CarrerasController extends Controller {
 
@@ -14,7 +17,11 @@ class CarrerasController extends Controller {
 	 */
 	public function index()
 	{
-		return view("carreras.index")->with('carreras', \App\Carrera::paginate(5)->setPath('carrera'));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$carreras = \App\Carrera::paginate(5);
+		
+		return view("carreras.index", compact('carreras'))->with('nombre',$nombre);
 	}
 
 	/**
@@ -24,8 +31,10 @@ class CarrerasController extends Controller {
 	 */
 	public function create()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$escuela = \App\Escuela::lists('nombre','id');
-		return view('carreras.create')->with('escuela',$escuela);
+		return view('carreras.create')->with('escuela',$escuela)->with('nombre',$nombre);
 	}
 
 	/**
@@ -33,17 +42,19 @@ class CarrerasController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(StoreCarreraRequest $request)
 	{
-		$carreras = new \App\Carrera;
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$carrera = new \App\Carrera;
 
-		$carreras->codigo = \Request::input('codigo');
-		$carreras->nombre = \Request::input('nombre');
-		$carreras->descripcion = \Request::input('descripcion');
-		$carreras->escuela_id = \Request::input('escuela_id');
-		$carreras->save();
+		$carrera->codigo = $request->input('codigo');
+		$carrera->nombre = ucwords($request->input('nombre'));
+		$carrera->escuela_id = $request->input('escuela_id');
+		$carrera->descripcion = ucfirst($request->input('descripcion'));
+		$carrera->save();
 
-		return redirect()->route('carreras.index')->with('message', 'Carrera Agregada');
+		return redirect()->route('carreras.index')->with('message', 'Carrera Agregada')->with('nombre',$nombre);
 	}
 
 	/**
@@ -54,9 +65,11 @@ class CarrerasController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$carreras = \App\Carrera::find($id);
 		$escuela = \App\Escuela::find($carreras->escuela_id);
-		return view('carreras.show')->with('carrera',$carreras)->with('escuela',$escuela);
+		return view('carreras.show')->with('carrera',$carreras)->with('escuela',$escuela)->with('nombre',$nombre);
 
 	}
 
@@ -68,8 +81,10 @@ class CarrerasController extends Controller {
 	 */
 	public function edit($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$escuela = \App\Escuela::lists('nombre','id');
-		return view('carreras.edit')->with('carrera', \App\Carrera::find($id))->with('escuelas',$escuela);
+		return view('carreras.edit')->with('carrera', \App\Carrera::find($id))->with('escuelas',$escuela)->with('nombre',$nombre);
 	}
 
 	/**
@@ -80,6 +95,8 @@ class CarrerasController extends Controller {
 	 */
 	public function update($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$carreras = \App\Carrera::find($id);
 
 		$carreras->codigo = \Request::input('codigo');
@@ -88,7 +105,7 @@ class CarrerasController extends Controller {
 		$carreras->escuela_id = \Request::input('escuela_id');
 
 		$carreras->save();
-		return redirect()->route('carreras.index', ['carrera' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('carreras.index', ['carrera' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

@@ -17,7 +17,6 @@
       <td width=710>{{ $rol->nombre }}</td>
       <td>
         {!! Html::link(route('roles.show', $rol->id), 'Detalles', array('class' => 'label label-info')) !!}
-        {!! Html::link(route('roles.edit', $rol->id), 'Editar', array('class' => 'label label-success')) !!}
         <td>
           {!! Form::open(array('route' => array('roles.destroy', $rol->id), 'method' => 'DELETE')) !!}
             <button class="label label-danger">Eliminar</button>
@@ -28,6 +27,7 @@
     @endforeach
   </tbody>
 </table>
+{!! $roles->render() !!}
 <p>
   @if(Session::has('message'))
     <div class="btn btn-info disabled{{ Session::get('class') }}">{{ Session::get('message')}}</div>

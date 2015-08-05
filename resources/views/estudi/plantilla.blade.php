@@ -9,7 +9,7 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
   <meta charset="UTF-8">
-  <title>Administrador|Menu</title>
+  <title>Estudiante</title>
   <link href="{{ asset('/css/yeti.css') }}" rel="stylesheet">
   <style>
   body {
@@ -21,22 +21,12 @@
   }
 </style>
 </head>
+<table align="right" ><td>Bienvenido/a {{$nombre}}.</td></table>
 <body>
   <h1>ESTUDIANTE</h1>
   <ul class="nav nav-tabs">
       <li class="active"><a aria-expanded="false" href="/estudi">Inicio</a></li>
-      <li class=""><a aria-expanded="true" href="/horarios">Horario</a></li>
-      <li class=""><a aria-expanded="false" href="/cursos">Cursos</a></li>
-      <li class=""><a aria-expanded="false" href="/periodos">Periodos</a></li>
-      
-      <li class="dropdown">
-        
-          <a class="dropdown-toggle" data-toggle="dropdown" href="/roles">Salas<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/salas">Salas</a></li>
-            <li><a href="/tipos_salas">Tipos de salas</a></li>
-          </ul>
-      </li>
+      <li class=""><a aria-expanded="false" href="/alumno">Horario</a></li>
 
       <li class=""><a aria-expanded="false" href="{{ action('Auth\AuthController@getLogout')}}" >Cerrar</a></li>
   </ul>

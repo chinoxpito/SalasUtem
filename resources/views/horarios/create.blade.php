@@ -22,7 +22,7 @@
                       {!! Form::open(['route' => 'horarios.store']) !!}
                       <form class="form-horizontal style-form" method="get">
                       		<div class="form-group">Fecha inicial del semestre
-								            {!! Form::text('fechaInicial', null, ['id' => 'fecha1', 'class' => 'form-control', 'placeholder'=>'Dia de Inicio']) !!}
+								            {!! Form::text('fechaInicial', null, ['id' => 'fecha1', 'class' => 'form-control', 'placeholder'=>'Dia de Inicio DD-MM-AA']) !!}
 							            <script>
                             $(function() {
                               $("#datepicker").datepicker();
@@ -39,7 +39,7 @@
 								            {!! Form::select('curso_id', $curso) !!}</p>
 							            </div>
                           <div class="form-group">Fecha final del semestre
-								            {!! Form::text('fechaFinal', null, ['id' => 'fecha2', 'class' => 'form-control', 'placeholder'=>'Dia de termino']) !!}
+								            {!! Form::text('fechaFinal', null, ['id' => 'fecha2', 'class' => 'form-control', 'placeholder'=>'Dia de termino DD-MM-AA']) !!}
                             <script>
                               $(function() {
                                 $("#datepicker2").datepicker();
@@ -66,5 +66,6 @@
 </center>
     </section>
       </section>
+      <td><a href="/horarios" class="btn btn-default btn-sm">Volver</a>
 
 @endsection

@@ -28,6 +28,5 @@
       </p>
       <table>
 		<td><a href="/tipos_salas" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/tipos_salas/create" class="btn btn-warning btn-sm">Agregar tipo de sala</a></td>
 	</table>
 @stop

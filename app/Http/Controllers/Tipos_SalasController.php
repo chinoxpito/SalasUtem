@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class Tipos_SalasController extends Controller {
 
@@ -14,7 +15,11 @@ class Tipos_SalasController extends Controller {
 	 */
 	public function index()
 	{
-		return view("tipos_salas.index")->with('tipos_salas', \App\Tipo_Sala::paginate(5)->setPath('tipo_sala'));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$tipos_salas = \App\Tipo_Sala::paginate(5);
+		
+		return view("tipos_salas.index", compact('tipos_salas'))->with('nombre',$nombre);
 	}
 
 	/**
@@ -24,7 +29,9 @@ class Tipos_SalasController extends Controller {
 	 */
 	public function create()
 	{
-		return view('tipos_salas.create');
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view('tipos_salas.create')->with('nombre',$nombre);
 	}
 
 	/**
@@ -34,6 +41,8 @@ class Tipos_SalasController extends Controller {
 	 */
 	public function store()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$tipos_salas = new \App\Tipo_Sala;
 
 		$tipos_salas->nombre = \Request::input('nombre');
@@ -41,7 +50,7 @@ class Tipos_SalasController extends Controller {
 
 		$tipos_salas->save();
 
-		return redirect()->route('tipos_salas.index')->with('message', 'Tipo de Sala Agregado');
+		return redirect()->route('tipos_salas.index')->with('message', 'Tipo de Sala Agregado')->with('nombre',$nombre);
 	}
 
 	/**
@@ -52,9 +61,11 @@ class Tipos_SalasController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$tipos_salas = \App\Tipo_Sala::find($id);
 
-		return view('tipos_salas.show')->with('tipo_sala',$tipos_salas);
+		return view('tipos_salas.show')->with('tipo_sala',$tipos_salas)->with('nombre',$nombre);
 	}
 
 	/**
@@ -65,7 +76,9 @@ class Tipos_SalasController extends Controller {
 	 */
 	public function edit($id)
 	{
-		return view('tipos_salas.edit')->with('tipo_sala', \App\Tipo_Sala::find($id));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		return view('tipos_salas.edit')->with('tipo_sala', \App\Tipo_Sala::find($id))->with('nombre',$nombre);
 	}
 
 	/**
@@ -76,13 +89,15 @@ class Tipos_SalasController extends Controller {
 	 */
 	public function update($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$tipos_salas = \App\Tipo_Sala::find($id);
 
 		$tipos_salas->nombre = \Request::input('nombre');
 		$tipos_salas->descripcion = \Request::input('descripcion');
 
 		$tipos_salas->save();
-		return redirect()->route('tipos_salas.index', ['tipo_sala' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('tipos_salas.index', ['tipo_sala' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

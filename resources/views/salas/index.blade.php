@@ -28,6 +28,7 @@
     @endforeach
   </tbody>
 </table>
+{!! $salas->render() !!}
 <p>
   @if(Session::has('message'))
     <div class="btn btn-info disabled{{ Session::get('class') }}">{{ Session::get('message')}}</div>

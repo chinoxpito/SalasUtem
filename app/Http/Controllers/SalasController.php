@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Campus;
 use App\Tipo_Sala;
+use Auth;
 
 class SalasController extends Controller {
 
@@ -16,9 +17,12 @@ class SalasController extends Controller {
 	 */
 	public function index()
 	{
-		return view("salas.index")->with('salas', \App\Sala::paginate(5)->setPath('sala'));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$salas = \App\Sala::paginate(5);
+		
+		return view("salas.index", compact('salas'))->with('nombre',$nombre);
 	}
-
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -26,9 +30,11 @@ class SalasController extends Controller {
 	 */
 	public function create()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$campu = Campus::lists('nombre','id');
 		$tipo_sala = Tipo_Sala::lists('nombre','id');
-		return view('salas.create')->with('campus',$campu)->with('tipos_salas',$tipo_sala);
+		return view('salas.create')->with('campus',$campu)->with('tipos_salas',$tipo_sala)->with('nombre',$nombre);
 	}
 
 	/**
@@ -38,6 +44,8 @@ class SalasController extends Controller {
 	 */
 	public function store()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$salas = new \App\Sala;
 
 		$salas->campus_id = \Request::input('campus_id');
@@ -47,7 +55,7 @@ class SalasController extends Controller {
 
 		$salas->save();
 
-		return redirect()->route('salas.index')->with('message', 'Sala Agregada');
+		return redirect()->route('salas.index')->with('message', 'Sala Agregada')->with('nombre',$nombre);
 	}
 
 	/**
@@ -58,10 +66,12 @@ class SalasController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$sala = \App\Sala::find($id);
 		$campu = \App\Campus::find($sala->campus_id);
 		$tipo_sala = \App\Tipo_Sala::find($sala->tipos_salas_id);
-		return view('salas.show')->with('sala',$sala)->with('campus',$campu)->with('tipos_salas',$tipo_sala);
+		return view('salas.show')->with('sala',$sala)->with('campus',$campu)->with('tipos_salas',$tipo_sala)->with('nombre',$nombre);
 	}
 
 	/**
@@ -72,9 +82,11 @@ class SalasController extends Controller {
 	 */
 	public function edit($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$campu = \App\Campus::lists('nombre','id');
 		$tipo_sala = Tipo_Sala::lists('nombre','id');
-		return view('salas.edit')->with('sala', \App\Sala::find($id))->with('campus',$campu)->with('tipos_salas',$tipo_sala);
+		return view('salas.edit')->with('sala', \App\Sala::find($id))->with('campus',$campu)->with('tipos_salas',$tipo_sala)->with('nombre',$nombre);
 	}
 
 	/**
@@ -85,6 +97,8 @@ class SalasController extends Controller {
 	 */
 	public function update($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$salas = \App\Sala::find($id);
 
 		$salas->campus_id = \Request::input('campus_id');
@@ -93,7 +107,7 @@ class SalasController extends Controller {
 		$salas->descripcion = \Request::input('descripcion');
 
 		$salas->save();
-		return redirect()->route('salas.index', ['sala' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('salas.index', ['sala' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

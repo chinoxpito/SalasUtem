@@ -30,6 +30,5 @@
       </p>
       <table>
 		<td><a href="/periodos" class="btn btn-default btn-sm">Volver</a>
-		<a href="/periodos/create" class="btn btn-warning btn-sm">Agregar periodo</a></td>
 	</table>
 @stop

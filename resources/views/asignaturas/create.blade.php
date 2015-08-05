@@ -32,9 +32,7 @@
         @endif
       </p>
       <table>
-		<td><a href="/asignaturas" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/asignaturas/create" class="btn btn-warning btn-sm">Agregar Asignatura</a></td>
-		
+		<td><a href="/asignaturas" class="btn btn-default btn-sm">Volver</a>		
 	</table>
     
 @stop

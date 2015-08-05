@@ -28,6 +28,6 @@
       </p>
       <table>
 		<td><a href="/rolesusuarios" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/rolesusuarios/create" class="btn btn-warning btn-sm">Agregar rolusuario</a></td>
+		
 	</table>
 @stop

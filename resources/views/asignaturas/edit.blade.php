@@ -35,6 +35,5 @@
       <table>
 		
 		<td><a href="/asignaturas" class="btn btn-default btn-sm">Volver</a>
-		<a href="/asignaturas/create" class="btn btn-warning btn-sm">Agregar asignatura</a></td>
 	</table>
 @stop

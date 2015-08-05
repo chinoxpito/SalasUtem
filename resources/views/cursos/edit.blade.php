@@ -36,6 +36,5 @@
       </p>
       <table>
 		<td><a href="/cursos" class="btn btn-default btn-sm">Volver</a>
-		<a href="/cursos/create" class="btn btn-warning btn-sm">Agregar curso</a></td>
 </table>
 @stop

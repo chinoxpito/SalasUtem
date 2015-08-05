@@ -39,6 +39,5 @@
       </p>
       <table>
 		<td><a href="/campus" class="btn btn-default btn-sm">Volver</a>
-		<a href="/campus/create" class="btn btn-warning btn-sm">Agregar Campus</a></td>
 	</table>
 @stop

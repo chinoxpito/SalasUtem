@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Departamento;
 use App\Curso;
 use App\Estudiante;
+use Auth;
 
 class Asignaturas_CursadasController extends Controller {
 
@@ -17,11 +18,12 @@ class Asignaturas_CursadasController extends Controller {
 	 */
 	public function index($id)
 	{
-		//dd($id);
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$estudiante = \App\Estudiante::find($id);
-		$curso = \App\Curso::paginate(20);
+		$curso = \App\Curso::paginate(5);
 		//dd($estudiante);
-		return view("asignaturas_cursadas.index")->with('asignaturas_cursadas', \App\Asignatura_Cursada::paginate(5)->setPath('asignaturas_cursadas'))->with('curso',$curso)->with('estudiante',$estudiante);
+		return view("asignaturas_cursadas.index", compact('estudiantes'))->with('asignaturas_cursadas', \App\Asignatura_Cursada::paginate(5)->setPath('asignaturas_cursadas'))->with('curso',$curso)->with('estudiante',$estudiante)->with('nombre',$nombre);
 	}
 
 	/**
@@ -31,9 +33,11 @@ class Asignaturas_CursadasController extends Controller {
 	 */
 	public function create($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$estudiante = \App\Estudiante::find($id);
 		$curso = \App\Curso::lists('seccion','id');
-		return view('asignaturas_cursadas.create')->with('curso',$curso)->with('estudiante',$estudiante);
+		return view('asignaturas_cursadas.create')->with('curso',$curso)->with('estudiante',$estudiante)->with('nombre',$nombre);
 	}
 
 	/**
@@ -43,6 +47,8 @@ class Asignaturas_CursadasController extends Controller {
 	 */
 	public function store()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$asignaturas_cursadas = new \App\Asignatura_Cursada;
 
 		$asignaturas_cursadas->curso_id = \Request::input('curso_id');
@@ -52,7 +58,7 @@ class Asignaturas_CursadasController extends Controller {
 		$asignaturas_cursadas->save();
 		$estudiante =  \App\Estudiante::find($asignaturas_cursadas->estudiante_id);
 
-		return redirect()->route('estudiantes.asignaturas_cursadas.index',[$estudiante->id])->with('message', 'Asignaturas Agregado');
+		return redirect()->route('estudiantes.asignaturas_cursadas.index',[$estudiante->id])->with('message', 'Asignaturas Agregado')->with('nombre',$nombre);
 	}
 
 	/**
@@ -63,9 +69,11 @@ class Asignaturas_CursadasController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$asignaturas = \App\Asignatura::find($id);
 		$departamento = \App\Departamento::find($asignaturas->departamento_id);
-		return view('asignaturas.show')->with('asignatura',$asignaturas)->with('departamento',$departamento);
+		return view('asignaturas.show')->with('asignatura',$asignaturas)->with('departamento',$departamento)->with('nombre',$nombre);
 	}
 
 	/**
@@ -76,8 +84,10 @@ class Asignaturas_CursadasController extends Controller {
 	 */
 	public function edit($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$departamento = \App\Departamento::lists('nombre','id');
-		return view('asignaturas.edit')->with('asignatura', \App\Asignatura::find($id))->with('departamentos',$departamento);
+		return view('asignaturas.edit')->with('asignatura', \App\Asignatura::find($id))->with('departamentos',$departamento)->with('nombre',$nombre);
 	}
 
 	/**
@@ -88,6 +98,8 @@ class Asignaturas_CursadasController extends Controller {
 	 */
 	public function update($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$asignaturas = \App\Asignatura::find($id);
 
 		$asignaturas->nombre = \Request::input('nombre');
@@ -96,7 +108,7 @@ class Asignaturas_CursadasController extends Controller {
 		$asignaturas->departamento_id = \Request::input('departamento_id');
 
 		$asignaturas->save();
-		return redirect()->route('asignaturas.index', ['asignatura' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('asignaturas.index', ['asignatura' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

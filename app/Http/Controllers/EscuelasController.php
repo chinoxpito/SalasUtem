@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class EscuelasController extends Controller {
 
@@ -14,7 +15,12 @@ class EscuelasController extends Controller {
 	 */
 	public function index()
 	{
-		return view("escuelas.index")->with('escuelas', \App\Escuela::paginate(5)->setPath('escuela'));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$escuelas = \App\Escuela::paginate(5);
+		
+		return view("escuelas.index", compact('escuelas'))->with('nombre',$nombre);
+
 	}
 
 	/**
@@ -24,8 +30,10 @@ class EscuelasController extends Controller {
 	 */
 	public function create()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$departamento = \App\Departamento::lists('nombre','id');
-		return view('escuelas.create')->with('departamento',$departamento);
+		return view('escuelas.create')->with('departamento',$departamento)->with('nombre',$nombre);
 	}
 
 	/**
@@ -35,6 +43,8 @@ class EscuelasController extends Controller {
 	 */
 	public function store()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$escuelas = new \App\Escuela;
 
 		$escuelas->nombre = \Request::input('nombre');
@@ -43,7 +53,7 @@ class EscuelasController extends Controller {
 
 		$escuelas->save();
 
-		return redirect()->route('escuelas.index')->with('message', 'Escuela Agregada');
+		return redirect()->route('escuelas.index')->with('message', 'Escuela Agregada')->with('nombre',$nombre);
 	}
 
 	/**
@@ -54,9 +64,11 @@ class EscuelasController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$escuela = \App\Escuela::find($id);
 		$departamento = \App\Departamento::find($escuela->departamento_id);
-		return view('escuelas.show')->with('escuela',$escuela)->with('departamento',$departamento);
+		return view('escuelas.show')->with('escuela',$escuela)->with('departamento',$departamento)->with('nombre',$nombre);
 	}
 
 	/**
@@ -67,8 +79,10 @@ class EscuelasController extends Controller {
 	 */
 	public function edit($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$departamento = \App\Departamento::lists('nombre','id');
-		return view('escuelas.edit')->with('escuela', \App\Escuela::find($id))->with('departamentos',$departamento);
+		return view('escuelas.edit')->with('escuela', \App\Escuela::find($id))->with('departamentos',$departamento)->with('nombre',$nombre);
 	}
 
 	/**
@@ -79,6 +93,8 @@ class EscuelasController extends Controller {
 	 */
 	public function update($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$escuelas = \App\Escuela::find($id);
 
 		$escuelas->nombre = \Request::input('nombre');
@@ -86,7 +102,7 @@ class EscuelasController extends Controller {
 		$escuelas->descripcion = \Request::input('descripcion');
 
 		$escuelas->save();
-		return redirect()->route('escuelas.index', ['escuela' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('escuelas.index', ['escuela' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

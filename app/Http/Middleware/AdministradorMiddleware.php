@@ -1,10 +1,6 @@
 <?php namespace App\Http\Middleware;
-
 use Closure;
-
-
 class AdministradorMiddleware {
-
 	/**
 	 * Handle an incoming request.
 	 *
@@ -19,7 +15,6 @@ class AdministradorMiddleware {
 		$encargado = \App\Rol::whereNombre('Encargado')->first();
 		$estudiante = \App\Rol::whereNombre('Estudiante')->first();
 		$docente = \App\Rol::whereNombre('Docente')->first();
-
 		if(!$administrador->usuarios()->find($user->rut))
 		{
 			
@@ -28,7 +23,6 @@ class AdministradorMiddleware {
 				
 				return redirect()->route('encar.index');
 			}
-
 			if($estudiante->usuarios()->find($user->rut))
 			{
 				
@@ -43,9 +37,6 @@ class AdministradorMiddleware {
 			
 			return redirect()->route('autenti.index');
 		}
-
-
 		return $next($request);
 	}
-
 }

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <title>ChinoWeco</title>
+  <title>Encargado</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{ asset('/css/yeti.css') }}">
@@ -22,6 +22,7 @@
   
 </style>
 </head>
+<table align="right" ><td>Bienvenido/a {{$nombre}}.</td></table>
 <body>
   <h1>ENCARGADO</h1>
   <ul class="nav nav-tabs">
@@ -29,7 +30,7 @@
       <li class=""><a aria-expanded="true" href="/asignaturas">Asignaturas</a></li>
       <li class=""><a aria-expanded="false" href="/cursos">Cursos</a></li>
       <li class="active"><a aria-expanded="false" href="/periodos">Periodos</a></li>
-      
+      <li class=""><a aria-expanded="false" href="/horarios">Horario</a></li>
       <li class="dropdown">
         
           <a class="dropdown-toggle" data-toggle="dropdown" href="/roles">Salas<span class="caret"></span></a>

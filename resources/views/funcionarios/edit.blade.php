@@ -35,6 +35,6 @@
       <table>
     
     <td><a href="/funcionarios" class="btn btn-default btn-sm">Volver</a>
-    <td><a href="/funcionarios/create" class="btn btn-warning btn-sm">Agregar Funcionario</a></td>
+    
   </table>
 @stop

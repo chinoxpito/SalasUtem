@@ -35,6 +35,5 @@
       <table>
     
     <td><a href="/salas" class="btn btn-default btn-sm">Volver</a>
-    <td><a href="/salas/create" class="btn btn-warning btn-sm">Agregar Sala</a></td>
   </table>
 @stop

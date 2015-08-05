@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Auth;
 
 class EstudiController extends Controller {
 
@@ -14,7 +15,11 @@ class EstudiController extends Controller {
 	 */
 	public function index()
 	{
-		return view("estudi.index");
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		
+		return view("estudi.index")->with('nombre',$nombre);
+		
 	}
 
 	/**

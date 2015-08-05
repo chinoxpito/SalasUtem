@@ -1,4 +1,5 @@
 <?php namespace App\Http\Controllers;
+
 use App\Http\Requests\StoreHorarioRequest;
 use App\Http\Requests\UpdateHorarioRequest;
 use App\Http\Controllers\Controller;
@@ -13,6 +14,8 @@ class HorariosController extends Controller {
 			public function index(Request $request)
 			{
 				$usuario = Auth::user();
+				$nombre = $usuario->estudiante->nombres;
+			
 				$cursos = \App\Curso::all();
 				$cursos_list = array();
 				foreach ($cursos as $curso) {
@@ -21,7 +24,7 @@ class HorariosController extends Controller {
 				}
 				return view("horarios.index", compact('horarios'))->with('curso',$cursos_list)
 																			->with('horarios', \App\Horario::name($request->get("name"))->paginate(5)
-																			->setPath('horarios'))->with('usuario',$usuario);
+																			->setPath('horarios'))->with('usuario',$usuario)->with('nombre',$nombre);
 			}
 			/**
 			 * Show the form for creating a new resource.
@@ -31,6 +34,7 @@ class HorariosController extends Controller {
 			public function create()
 			{
 				$usuario = Auth::user();
+				$nombre = $usuario->estudiante->nombres;
 				$periodo = \App\Periodo::lists('bloque','id');
 				$sala = \App\Sala::lists('nombre','id');
 				$cursos = \App\Curso::all();
@@ -44,7 +48,7 @@ class HorariosController extends Controller {
 																			->with('salas',$sala)
 																			->with('curso',$cursos_list)
 																			->with('asignatura',$asignatura)
-																			->with('usuario',$usuario);
+																			->with('usuario',$usuario)->with('nombre',$nombre);
 			}
 			/**
 			 * Store a newly created resource in storage.
@@ -88,6 +92,7 @@ class HorariosController extends Controller {
 			public function show($id)
 			{
 				$usuario = Auth::user();
+				$nombre = $usuario->estudiante->nombres;
 				$horario = \App\Horario::find($id);
       			$periodo = \App\Periodo::find($horario->periodo_id);
 				$sala = \App\Sala::find($horario->sala_id);
@@ -95,7 +100,7 @@ class HorariosController extends Controller {
 				return view('horarios.show')->with('horario',$horario)
 																		->with('periodo',$periodo)
 																		->with('sala',$sala)->with('curso',$curso)
-																		->with('usuario',$usuario);
+																		->with('usuario',$usuario)->with('nombre',$nombre);
 			}
 			/**
 			 * Show the form for editing the specified resource.
@@ -106,6 +111,7 @@ class HorariosController extends Controller {
 			public function edit($id)
 			{
 				$usuario = Auth::user();
+				$nombre = $usuario->estudiante->nombres;
 				$periodos = \App\Periodo::lists('bloque','id');
 				$salas = \App\Sala::lists('nombre','id');
 				$cursos = \App\Curso::all();
@@ -120,7 +126,7 @@ class HorariosController extends Controller {
 				                            ->with('salas', $salas)
 			                              ->with('asignaturas', $asignaturas)
 																		->with('curso',$cursos_list)
-			                              ->with('usuario',$usuario);
+			                              ->with('usuario',$usuario)->with('nombre',$nombre);
 			}
 			/**
 			 * Update the specified resource in storage.

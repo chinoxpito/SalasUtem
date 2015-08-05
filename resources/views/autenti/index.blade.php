@@ -8,9 +8,9 @@
  <center>
 <div class="divspoiler">
     
-    <a href="javascript:void(0);" target=_parent  class="btn btn-default" onclick="if (this.parentNode.nextSibling.childNodes[0].style.display != '') { this.parentNode.nextSibling.childNodes[0].style.display = ''; } else { this.parentNode.nextSibling.childNodes[0].style.display = 'none';}" >Alumnos</a>
-    <a href="javascript:void(0);" target=_parent  class="btn btn-primary" onclick="if (this.parentNode.nextSibling.childNodes[0].style.display != '') { this.parentNode.nextSibling.childNodes[0].style.display = ''; } else { this.parentNode.nextSibling.childNodes[0].style.display = 'none';}" >Academicos</a>
-    <a href="javascript:void(0);" target=_parent  class="btn btn-success" onclick="if (this.parentNode.nextSibling.childNodes[0].style.display != '') { this.parentNode.nextSibling.childNodes[0].style.display = ''; } else { this.parentNode.nextSibling.childNodes[0].style.display = 'none';}" >Gestion</a>
+    
+    <a href="javascript:void(0);" target=_parent  class="btn btn-primary" onclick="if (this.parentNode.nextSibling.childNodes[0].style.display != '') { this.parentNode.nextSibling.childNodes[0].style.display = ''; } else { this.parentNode.nextSibling.childNodes[0].style.display = 'none';}" >Ingresar</a>
+    
 
 </div><div><div class="spoiler" style="display: none;">
 
@@ -41,8 +41,6 @@
                 <div class="form-group">
                     
                         <button type="submit" class="btn btn-lg btn-primary btn-block">Iniciar</button>
-                        
-                    
                 </div>
         </form>
     

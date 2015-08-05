@@ -30,6 +30,6 @@
       </p>
       <table>
 		<td><a href="/escuelas" class="btn btn-default btn-sm">Volver</a>
-		<a href="/escuelas/create" class="btn btn-warning btn-sm">Agregar Escuela</a></td>
+		
 	</table>
 @stop

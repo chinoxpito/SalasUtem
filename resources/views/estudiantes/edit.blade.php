@@ -38,6 +38,6 @@
       <table>
     
     <td><a href="/estudiantes" class="btn btn-default btn-sm">Volver</a>
-    <td><a href="/estudiantes/create" class="btn btn-warning btn-sm">Agregar Estudiante</a></td>
+   
   </table>
 @stop

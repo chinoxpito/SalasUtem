@@ -1,5 +1,14 @@
 @extends('carreras.plantilla')
 @section('contenido')
+@if (count($errors) > 0)
+	                    <div class="alert alert-danger">
+	                      <ul>
+	                        @foreach ($errors->all() as $error)
+	                           <li>{{ $error }}</li>
+                          @endforeach
+	                      </ul>
+                      </div>
+                    @endif
 <p>
 	
 	<table>
@@ -33,6 +42,6 @@
       </p>
       <table>
 		<td><a href="/carreras" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/carreras/create" class="btn btn-warning btn-sm">Agregar Carrera</a></td>
+		
 	</table>
 @stop

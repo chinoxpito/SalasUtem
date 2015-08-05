@@ -14,7 +14,7 @@
   <tbody>
     @foreach($rolesusuarios as $rolusuario)
     <tr>
-      <td width=710>{{ $rolusuario->rut}}</td>
+      <td width=710>{{ $rolusuario->rut}} {{ $rolusuario->rol->nombre}}</td>
       <td>             
         {!! Html::link(route('rolesusuarios.show', $rolusuario->id), 'Detalles', array('class' => 'label label-info')) !!}
         {!! Html::link(route('rolesusuarios.edit', $rolusuario->id), 'Editar', array('class' => 'label label-success')) !!}
@@ -28,6 +28,7 @@
     @endforeach
   </tbody>
 </table>
+{!! $rolesusuarios->render() !!}
 <p>
   @if(Session::has('message'))
     <div class="btn btn-info disabled{{ Session::get('class') }}">{{ Session::get('message')}}</div>

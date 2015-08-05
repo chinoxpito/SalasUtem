@@ -1,5 +1,14 @@
 @extends('rolesusuarios.plantilla')
 @section('contenido')
+                   @if (count($errors) > 0)
+	                    <div class="alert alert-danger">
+	                      <ul>
+	                        @foreach ($errors->all() as $error)
+	                           <li>{{ $error }}</li>
+                          @endforeach
+	                      </ul>
+                      </div>
+                    @endif
 <p>
 	
 	<table>
@@ -28,6 +37,6 @@
       </p>
       <table>
 		<td><a href="/rolesusuarios" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/rolesusuarios/create" class="btn btn-warning btn-sm">Agregar Rol</a></td>
+		
 	</table>
 @stop

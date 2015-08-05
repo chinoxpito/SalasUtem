@@ -32,6 +32,6 @@
   </table>
   <table>
     <td><a href="/departamentos" class="btn btn-default btn-sm">Volver</a>
-    <td><a href="/departamentos/create" class="btn btn-warning btn-sm">Agregar Departamento</a></td>
+    {!! Html::link(route('departamentos.edit', $departamento->id), 'Editar', array('class' => 'btn btn-warning btn-sm')) !!}</td>
   </table>
 @stop

@@ -1,7 +1,14 @@
 @extends('periodos.plantilla')
 @section('contenido')
-
-<p>
+@if (count($errors) > 0)
+	                    <div class="alert alert-danger">
+	                      <ul>
+	                        @foreach ($errors->all() as $error)
+	                           <li>{{ $error }}</li>
+                          @endforeach
+	                      </ul>
+                      </div>
+                    @endif<p>
 	
 	<table>
 		<td width=505><h2>Registro de Periodos</h2></td>
@@ -15,10 +22,10 @@
 					{!! Form::text('bloque', null, ['class' => 'form-control', 'placeholder'=>'Bloque']) !!}
 				</div>
 				<div class="form-group">
-					{!! Form::text('inicio', null,['class'=>'form-control', 'placeholder'=>'Hora de inicio'])!!}
+					{!! Form::text('inicio', null,['class'=>'form-control', 'placeholder'=>'Hora de inicio HH:MM:SS'])!!}
 				</div>
 				<div class="form-group">
-					{!! Form::text('fin', null,['class'=>'form-control', 'placeholder'=>'Hora de fin'])!!}
+					{!! Form::text('fin', null,['class'=>'form-control', 'placeholder'=>'Hora de fin HH:MM:SS'])!!}
 				</div>
 				<div class="form-group">
 					{!! Form::submit('Agregar', ["class" => "btn btn-success btn-block"]) !!}
@@ -31,6 +38,5 @@
       </p>
       <table>
 		<td><a href="/periodos" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/periodos/create" class="btn btn-warning btn-sm">Agregar Periodo</a></td>
 	</table>
 @stop

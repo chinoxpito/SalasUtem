@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Campus;
+use Auth;
 
 class FacultadesController extends Controller {
 
@@ -15,7 +16,12 @@ class FacultadesController extends Controller {
 	 */
 	public function index()
 	{
-		return view("facultades.index")->with('facultades', \App\Facultad::paginate(5)->setPath('facultad'));
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+		$facultades = \App\Facultad::paginate(5);
+		
+		return view("facultades.index", compact('facultades'))->with('nombre',$nombre);
+
 	}
 
 	/**
@@ -25,8 +31,11 @@ class FacultadesController extends Controller {
 	 */
 	public function create()
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+
 		$campus = Campus::lists('nombre','id');
-		return view('facultades.create')->with('campus',$campus);
+		return view('facultades.create')->with('campus',$campus)->with('nombre',$nombre);
 	}
 
 	/**
@@ -36,6 +45,10 @@ class FacultadesController extends Controller {
 	 */
 	public function store()
 	{
+		
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+
 		$facultades = new \App\Facultad;
 
 		$facultades->nombre = \Request::input('nombre');
@@ -44,7 +57,7 @@ class FacultadesController extends Controller {
 
 		$facultades->save();
 
-		return redirect()->route('facultades.index')->with('message', 'Facultad Agregada');
+		return redirect()->route('facultades.index')->with('message', 'Facultad Agregada')->with('nombre',$nombre);
 	}
 
 	/**
@@ -55,9 +68,11 @@ class FacultadesController extends Controller {
 	 */
 	public function show($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$facultad = \App\Facultad::find($id);
 		$campus = \App\Campus::find($facultad->campus_id);
-		return view('facultades.show')->with('facultad',$facultad)->with('campus',$campus);
+		return view('facultades.show')->with('facultad',$facultad)->with('campus',$campus)->with('nombre',$nombre);
 ;
 	}
 
@@ -69,8 +84,10 @@ class FacultadesController extends Controller {
 	 */
 	public function edit($id)
 	{
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
 		$campus = \App\Campus::lists('nombre','id');
-		return view('facultades.edit')->with('facultad', \App\Facultad::find($id))->with('campus',$campus);
+		return view('facultades.edit')->with('facultad', \App\Facultad::find($id))->with('campus',$campus)->with('nombre',$nombre);
 	}
 
 	/**
@@ -81,6 +98,10 @@ class FacultadesController extends Controller {
 	 */
 	public function update($id)
 	{
+		
+		$usuario = Auth::user();
+		$nombre = $usuario->estudiante->nombres;
+
 		$facultades = \App\Facultad::find($id);
 
 		$facultades->nombre = \Request::input('nombre');
@@ -88,7 +109,7 @@ class FacultadesController extends Controller {
 		$facultades->descripcion = \Request::input('descripcion');
 
 		$facultades->save();
-		return redirect()->route('facultades.index', ['facultad' => $id])->with('message', 'Cambios guardados');
+		return redirect()->route('facultades.index', ['facultad' => $id])->with('message', 'Cambios guardados')->with('nombre',$nombre);
 	}
 
 	/**

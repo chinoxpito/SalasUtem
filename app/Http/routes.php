@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -10,16 +9,12 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 //Route::get('/', 'WelcomeController@index');
-
 //Route::get('home', 'HomeController@index');
-
 /*Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);*/
-
 Route::controller('auth', 'Auth\AuthController', [
     'getLogin'  => 'auth.login',
     'postLogin' => 'auth.doLogin',
@@ -37,30 +32,15 @@ Route::group(['prefix' => 'backend', 'namespace' => 'Backend', 'middleware' => [
 });
 */
 //Route::resource('post', 'PostController');
+Route::resource('/','AutentiController');
 
 
 
-
-
-Route::resource('rolesusuarios','RolesusuariosController');
-Route::resource('roles','RolesController');
-Route::resource('estudiantes.asignaturas_cursadas','Asignaturas_CursadasController');
-//Route::resource('asignaturas_cursadas','Asignaturas_CursadasController');
-
-
-Route::resource('horarios','HorariosController');
-
-
-
-
-//Route::resource('admi','AdmiController');
-
-Route::resource('estudi','EstudiController');
 Route::resource('autenti','AutentiController');
+
 
 Route::group(['middleware' => 'administrador'], function()
 {
-  //Route::get('/admi', ['middleware' => ['auth','administrador'],'as'=>'admi.index','uses'=> 'AdmiController@index']);
   Route::resource('admi','AdmiController');
   Route::resource('campus','CampusController');
   Route::resource('facultades','FacultadesController');
@@ -71,10 +51,10 @@ Route::group(['middleware' => 'administrador'], function()
   Route::resource('docentes','DocentesController');
   Route::resource('estudiantes','EstudiantesController');
   Route::get('alumno','AdmiController@estudindex');
-  //Route::resource('rolesusuarios','RolesusuariosController');
-  //Route::resource('roles','RolesController');
-
-
+  Route::resource('estudiantes.asignaturas_cursadas','Asignaturas_CursadasController');
+  Route::resource('rolesusuarios','RolesusuariosController');
+  Route::resource('roles','RolesController');
+  
 });
 
 Route::group(['middleware' => 'encargado'], function()
@@ -85,19 +65,15 @@ Route::group(['middleware' => 'encargado'], function()
   Route::resource('periodos','PeriodosController');
   Route::resource('salas','SalasController');
   Route::resource('tipos_salas','Tipos_SalasController');
-
-
+  Route::resource('horarios','HorariosController');
 });
 
 Route::group(['middleware' => 'alumno'], function()
 {
+  Route::resource('estudi','EstudiController');
   Route::get('alumnos','AdmiController@estudindex');
-
-
-
 });
+
 Route::get('/alumno', ['middleware' => ['auth','alumno'],'as'=>'alumnos.index','uses'=> 'AdmiController@inicioAlumno']);
 Route::get('/encar', ['middleware' => ['auth','encargado'],'as'=>'encar.index','uses'=> 'EncarController@index']);
 Route::get('/admi', ['middleware' => ['auth','administrador'],'as'=>'admi.index','uses'=> 'AdmiController@index']);
-
-//Route::get('/campus', ['middleware' => ['auth','administrador'],'as'=>'campus.index','uses'=> 'CampusController@index']);

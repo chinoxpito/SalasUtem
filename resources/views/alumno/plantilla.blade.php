@@ -9,7 +9,7 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
   <meta charset="UTF-8">
-  <title>Administrador|Menu</title>
+  <title>Estudiante</title>
   <link href="{{ asset('/css/yeti.css') }}" rel="stylesheet">
   <style>
   body {
@@ -21,11 +21,12 @@
   }
 </style>
 </head>
+<table align="right" ><td>Bienvenido/a.</td></table>
 <body>
-  <h1>ESTUDIANTE Bienvenido: </h1>
+  <h1>ESTUDIANTE</h1>
   <ul class="nav nav-tabs">
-      <li class="active"><a aria-expanded="false" href="/alumno">Inicio</a></li>
-      <li class=""><a aria-expanded="false" href="/alumno">Horario</a></li>
+      <li class=""><a aria-expanded="false" href="/estudi">Inicio</a></li>
+      <li class="active"><a aria-expanded="false" href="/alumno">Horario</a></li>
 
       <li class=""><a aria-expanded="false" href="{{ action('Auth\AuthController@getLogout')}}" >Cerrar</a></li>
   </ul>

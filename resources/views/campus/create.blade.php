@@ -28,7 +28,7 @@
 					{!! Form::text('descripcion', null,['class'=>'form-control', 'placeholder'=>'Descripcion'])!!}
 				</div>
 				<div class="form-group">
-					{!! Form::text('rut', null,['class'=>'form-control', 'placeholder'=>'Rut encargado'])!!}
+					{!! Form::text('rut_encargado', null,['class'=>'form-control', 'placeholder'=>'Rut encargado'])!!}
 				</div>
 				<div class="form-group">
 					{!! Form::submit('Agregar', ["class" => "btn btn-success btn-block"]) !!}
@@ -42,7 +42,7 @@
 
       <table>
 		<td><a href="/campus" class="btn btn-default btn-sm">Volver</a>
-		<td><a href="/campus/create" class="btn btn-warning btn-sm">Agregar Campus</a></td>
+		
 	</table>
 	
 @stop
